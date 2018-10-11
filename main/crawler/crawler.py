@@ -77,8 +77,9 @@ def get_links(url, depth):
     # check if the fetched page is actually a feed
     feed_types = ['text/xml', 'application/xml', 'rss+xml', 'atom+xml']
     res_feed = None
-    if any(x in page.headers['content-type'] for x in feed_types):
-        res_feed = feed.check_feed(page.content, url)
+    if page.headers['content-type']:
+        if any(x in page.headers['content-type'] for x in feed_types):
+            res_feed = feed.check_feed(page.content, url)
 
     # so crawl links from it
     tree = html.fromstring(page.content)

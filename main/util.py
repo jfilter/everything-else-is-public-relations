@@ -17,11 +17,11 @@ def fetch(url, max_tries=10):
     while cur_try < max_tries:
         try:
             page = requests.get(url, headers=headers, timeout=30)
-            break  # success
+            return page
         except:
             cur_try += 1
             time.sleep(cur_try * 10)  # increase sleep
-    return page
+    return None
 
 
 def create_abs_urls(urls, base_url):
