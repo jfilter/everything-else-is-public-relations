@@ -16,4 +16,8 @@ if __name__ == "__main__":
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    if 'run_huey' in sys.argv:
+        import huey
+
     execute_from_command_line(sys.argv)

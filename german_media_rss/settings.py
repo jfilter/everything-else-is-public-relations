@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "raven.contrib.django.raven_compat",
+    "huey.contrib.djhuey",
     "main",
 ]
 
@@ -210,3 +211,18 @@ try:
     MIDDLEWARE += LOCAL_MIDDLEWARE
 except:  # noqa
     pass
+
+
+HUEY = {
+    'name': 'huey_db',  # Use db name for huey.
+    'consumer': {
+        'workers': 10,
+        'worker_type': 'thread',
+    },
+    'connection': {
+        'host': 'redis',
+        'port': 6379,
+        'db': 1,
+    },
+    'always_eager': False
+}

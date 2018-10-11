@@ -1,27 +1,14 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 name = "pypi"
 verify_ssl = true
 
-
-[dev-packages]
-
-ipython = "*"
-bpython = "*"
-pudb = "*"
-"flake8" = "*"
-isort = "*"
-yapf = "*"
-
-
 [packages]
-
 django = "*"
 django-extensions = "*"
 django-dotenv = "*"
 django-redis = "*"
-"psycopg2-binary" = "*"
+psycopg2-binary = "*"
 pytest = "*"
 pytest-cov = "*"
 raven = "*"
@@ -29,3 +16,16 @@ shortuuid = "*"
 uwsgi = "*"
 werkzeug = "*"
 whitenoise = "*"
+mw-category-members = "*"
+lxml = "*"
+requests = "*"
+huey = "*"
+feedparser = "*"
+
+[dev-packages]
+autopep8 = "*"
+pylint = "*"
+isort = "*"
+
+[requires]
+python_version = "3.6"

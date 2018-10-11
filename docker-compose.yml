@@ -1,8 +1,10 @@
-version: '2'
+version: "2"
 
 services:
   redis:
     image: redis
+    ports:
+      - "6379:6379"
   db:
     image: postgres:10
     environment:
@@ -13,7 +15,7 @@ services:
       - ./misc/dbdata:/var/lib/postgresql/data
   web:
     # Docker hack to wait until Postgres is up, then run stuff.
-    command: bash -c "while ! nc -w 1 -z db 5432; do sleep 0.1; done; /code/manage.py migrate; while :; do /code/manage.py runserver_plus 0.0.0.0:8000; sleep 1; done"
+    command: ./start.sh
     image: german_media_rss
     build: .
     stdin_open: true
