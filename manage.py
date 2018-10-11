@@ -17,7 +17,7 @@ if __name__ == "__main__":
             "forget to activate a virtual environment?"
         ) from exc
 
-    if 'run_huey' in sys.argv:
-        import huey
+    # if 'run_huey' in sys.argv:
+    #     execute_from_command_line('clean_db')
 
     execute_from_command_line(sys.argv)
