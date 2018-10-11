@@ -1,8 +1,12 @@
+# import the logging library
+import logging
 import time
 from urllib import parse
 
-
 import requests
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 # horrible code
 
@@ -20,16 +24,43 @@ def fetch(url, max_tries=10):
     return page
 
 
-def internal_urls(urls, baseurl):
-    res = set()
-    urls = [parse.urljoin(baseurl, l) for l in urls]
+def create_abs_urls(urls, base_url):
+    return [parse.urljoin(base_url, l) for l in urls]
 
-    orig_loc = parse.urlparse(baseurl).netloc
+
+# https://stackoverflow.com/a/12170628/4028896
+# removed the 'rss' extension because we are looking for it
+IGNORED_EXTENSIONS = [
+    # images
+    'mng', 'pct', 'bmp', 'gif', 'jpg', 'jpeg', 'png', 'pst', 'psp', 'tif',
+    'tiff', 'ai', 'drw', 'dxf', 'eps', 'ps', 'svg',
+
+    # audio
+    'mp3', 'wma', 'ogg', 'wav', 'ra', 'aac', 'mid', 'au', 'aiff',
+
+    # video
+    '3gp', 'asf', 'asx', 'avi', 'mov', 'mp4', 'mpg', 'qt', 'rm', 'swf', 'wmv',
+    'm4a',
+
+    # other
+    'css', 'pdf', 'doc', 'exe', 'bin', 'zip', 'rar',
+]
+
+
+def internal_urls(urls, base_url):
+    res = set()
+
+    urls = create_abs_urls(urls, base_url)
+    orig_loc = parse.urlparse(base_url).netloc
 
     for u in urls:
         parsed = parse.urlparse(u)
 
         if not parsed.netloc == orig_loc:
+            continue
+
+        if any(parsed.path.endswith('.' + x) for x in IGNORED_EXTENSIONS):
+            logger.debug('skip link: ' + u)
             continue
 
         # normalized use only scheme, netloc and path
@@ -50,6 +81,11 @@ def external_base_urls(links):
         parsed = parse.urlparse(l)
         netloc = parsed.netloc
         if any(wiki in netloc for wiki in ('wikipedia', 'wikidata', 'wikimedia', 'mediawiki')):
+            logger.debug('skip:' + l)
+            continue
+
+        if any(parsed.path.endswith('.' + x) for x in IGNORED_EXTENSIONS):
+            logger.debug('skip:' + l)
             continue
 
         base = parse.urlunparse(parsed[:2] + ('', '', '', ''))

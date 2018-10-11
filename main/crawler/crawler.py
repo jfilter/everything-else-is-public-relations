@@ -1,9 +1,13 @@
+import logging
 from urllib import parse
 
 from lxml import html
 
-from .. import util
 from . import feed
+from .. import util
+
+logger = logging.getLogger(__name__)
+
 
 
 def crawl(start_url, max_depth=2):
@@ -62,15 +66,14 @@ def crawl(start_url, max_depth=2):
 
 
 def get_links(url, depth):
-    print(url, depth)
+    logger.debug('' + url + depth)
     page = util.fetch(url)
 
     if page is None:
-        print('something went wrong with this page:', url)
+        logger.debug('something went wrong with this page:' + url)
         return None
 
     # check if the fetched page is actually a feed
-    print(page.headers['content-type'])
     feed_types = ['text/xml', 'application/xml', 'rss+xml', 'atom+xml']
     res_feed = None
     if any(x in page.headers['content-type'] for x in feed_types):
@@ -81,7 +84,12 @@ def get_links(url, depth):
     atom = tree.xpath('//a[@type="application/atom+xml"]/@href') + tree.xpath('//link[@type="application/atom+xml"]/@href')
     rss = tree.xpath('//a[@type="application/rss+xml"]/@href') + tree.xpath('//link[@type="application/rss+xml"]/@href')
 
+    # often the feed urls are relative
+    atom = util.create_abs_urls(atom, url)
+    rss = util.create_abs_urls(rss, url)
+
     all_urls = tree.xpath('//a/@href')
+
     internal_urls = util.internal_urls(all_urls, url)
 
     # increase the depth

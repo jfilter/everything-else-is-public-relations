@@ -3,7 +3,7 @@ from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET
 
-from .models import Feed, SeedWikiWebsite, Website, WikiCategory
+from .models import Feed, SeedWikiWebsite, Website, WikiCategory, STATUS_WAITING, STATUS_SUCCESS, STATUS_ERROR, STATUS_WORKING
 
 
 def index(request):
@@ -11,12 +11,12 @@ def index(request):
 
 
 @staff_member_required
-def crawl(request):
-    return render(request, "crawl.html", {
-        'num_cats': WikiCategory.objects.count(),
-        'num_seed_links': SeedWikiWebsite.objects.count(),
-        'num_websites': Website.objects.count(),
-        'num_feeds': Feed.objects.count()
+def stats(request):
+    return render(request, "stats.html", {
+        'num_cats': [WikiCategory.objects.count(), WikiCategory.objects.filter(status=STATUS_WAITING).count(), WikiCategory.objects.filter(status=STATUS_WORKING).count()],
+        'num_seed_links': [SeedWikiWebsite.objects.count(), SeedWikiWebsite.objects.filter(status=STATUS_WAITING).count(), SeedWikiWebsite.objects.filter(status=STATUS_WORKING).count()],
+        'num_websites': [Website.objects.count(), Website.objects.filter(status=STATUS_WAITING).count(), Website.objects.filter(status=STATUS_WORKING).count()],
+        'num_feeds': [Feed.objects.count()]
     })
 
 

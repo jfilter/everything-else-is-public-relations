@@ -1,1 +1,2 @@
 web: /usr/local/bin/uwsgi --chdir=/code/ --ini=/code/uwsgi.ini
+worker: /code/manage.py clean_db && /code/manage.py run_huey

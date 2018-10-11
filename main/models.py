@@ -37,6 +37,6 @@ class Feed(models.Model):
     url = models.CharField(unique=True, max_length=500)
     link = models.CharField(max_length=500)
     title = models.CharField(max_length=500)
-    description = models.CharField(max_length=500)
+    description = models.TextField()
     version = models.CharField(max_length=10)
     last_fetched = models.DateTimeField(blank=True, null=True)

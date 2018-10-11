@@ -1,4 +1,8 @@
+import logging
+
 import feedparser
+
+logger = logging.getLogger(__name__)
 
 
 def check_feed(input, url):
@@ -12,4 +16,5 @@ def check_feed(input, url):
         r['link'] = d['feed']['link']
         return r
     except:
+        logger.error('problem with checking feed: ' + input + url)
         return None
