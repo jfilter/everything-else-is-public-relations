@@ -1,4 +1,4 @@
-from . import crawler
+from . import crawler, feed
 
 
 # def test_run():
@@ -7,10 +7,13 @@ from . import crawler
 #     print(res)
 
 
-def test_fds():
-    res = crawler.get_links('https://fragdenstaat.de/blog/feed/', 0)
-    print(res)
+# def test_fds():
+#     res = crawler.get_links('https://fragdenstaat.de/blog/feed/', 0)
+#     print(res)
 
+# def test_feed():
+#     res = feed.check_feed('http://www.sobla.de/service/webcms/newslistrss?componentID=4d6766d8-5465-41a8-a585-ab6454c8add0&pageID=105366-6993c8fe93bcdf55f57aea950247fac7', 'http://www.sobla.de/service/webcms/newslistrss?componentID=4d6766d8-5465-41a8-a585-ab6454c8add0&pageID=105366-6993c8fe93bcdf55f57aea950247fac7')
+#     print(res)
 # https://de.wikipedia.org/wiki/Kategorie:Deutschsprachiges_Medium
 # https://de.wikipedia.org/wiki/Kategorie:Deutschsprachige_Tageszeitung
 # https://de.wikipedia.org/wiki/Kategorie:Deutschsprachige_Zeitung

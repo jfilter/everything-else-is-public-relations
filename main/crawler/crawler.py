@@ -56,8 +56,10 @@ def crawl(start_url, max_depth=2):
 
     # only check / parse the links once
     for x in list(rss) + list(atom):
-        # TODO: fetch with requests and only parse with feedparser
-        res_feed = feed.check_feed(x, x)
+        res = util.fetch(x)
+        if not res.ok:
+            continue
+        res_feed = feed.check_feed(res.text, x)
         if not res_feed is None:
             feeds.append(res_feed)
 
