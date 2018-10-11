@@ -212,17 +212,28 @@ try:
 except:  # noqa
     pass
 
-
-HUEY = {
-    'name': 'huey_db',  # Use db name for huey.
-    'consumer': {
-        'workers': 10,
-        'worker_type': 'thread',
-    },
-    'connection': {
-        'host': 'redis',
-        'port': 6379,
-        'db': 1,
-    },
-    'always_eager': False
-}
+if os.getenv("IN_DOCKER"):
+    HUEY = {
+        'name': 'huey_db',  # Use db name for huey.
+        'consumer': {
+            'workers': 10,
+            'worker_type': 'thread',
+        },
+        'connection': {
+            'host': 'redis',
+            'port': 6379,
+            'db': 1,
+        },
+        'always_eager': False
+    }
+else:
+    HUEY = {
+        'name': 'huey_db',  # Use db name for huey.
+        'consumer': {
+            'workers': 20,
+            'worker_type': 'thread',
+        },
+        'connection': {
+            'url': os.getenv("REDIS_URL")
+        },
+    }
