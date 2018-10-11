@@ -9,7 +9,6 @@ from .. import util
 logger = logging.getLogger(__name__)
 
 
-
 def crawl(start_url, max_depth=2):
     error_occured = False
     done = set()
@@ -66,11 +65,11 @@ def crawl(start_url, max_depth=2):
 
 
 def get_links(url, depth):
-    logger.debug('' + url + depth)
+    logger.debug(f"fetch: {url}, {depth}")
     page = util.fetch(url)
 
     if page is None:
-        logger.debug('something went wrong with this page:' + url)
+        logger.debug(f'something went wrong with this page: {url}')
         return None
 
     # check if the fetched page is actually a feed

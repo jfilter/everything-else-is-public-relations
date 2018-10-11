@@ -20,11 +20,11 @@ def cron_crawl():
         site_to_fetch.status = STATUS_WORKING
         site_to_fetch.save()
 
-        logger.debug('start' + site_to_fetch.url)
+        logger.debug(f'start {site_to_fetch.url}')
 
         feeds, error = crawler.crawl(site_to_fetch.url)
 
-        logger.debug('finish' + feeds + error)
+        logger.debug(f'finish {feeds} {error}')
 
         if error:
             site_to_fetch.status = STATUS_ERROR

@@ -60,7 +60,7 @@ def internal_urls(urls, base_url):
             continue
 
         if any(parsed.path.endswith('.' + x) for x in IGNORED_EXTENSIONS):
-            logger.debug('skip link: ' + u)
+            logger.debug(f'skip link: {u}')
             continue
 
         # normalized use only scheme, netloc and path
@@ -81,11 +81,11 @@ def external_base_urls(links):
         parsed = parse.urlparse(l)
         netloc = parsed.netloc
         if any(wiki in netloc for wiki in ('wikipedia', 'wikidata', 'wikimedia', 'mediawiki')):
-            logger.debug('skip:' + l)
+            logger.debug(f'skip: {l}')
             continue
 
         if any(parsed.path.endswith('.' + x) for x in IGNORED_EXTENSIONS):
-            logger.debug('skip:' + l)
+            logger.debug(f'skip: {l}')
             continue
 
         base = parse.urlunparse(parsed[:2] + ('', '', '', ''))
