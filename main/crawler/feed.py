@@ -12,11 +12,13 @@ def check_feed(feed_string, url):
         d = feedparser.parse(feed_string)
         if d.version:
             r['version'] = d.version
-        if d['feed']['title']:
+        if not 'feed' in d:
+            return None
+        if 'title' in d['feed']:
             r['title'] = d['feed']['title']
-        if d['feed']['description']:
+        if 'description' in d['feed']:
             r['description'] = d['feed']['description']
-        if d['feed']['link']:
+        if 'link' in d['feed']:
             r['link'] = d['feed']['link']
         return r
     except Exception as e:
