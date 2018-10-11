@@ -16,8 +16,9 @@ def fetch(url, max_tries=10):
     cur_try = 0
     while cur_try < max_tries:
         try:
-            page = requests.get(url, headers=headers, timeout=30)
-            return page
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            return response
         except:
             cur_try += 1
             time.sleep(cur_try * 10)  # increase sleep
