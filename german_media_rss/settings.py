@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "override me")
 DEBUG = True if os.getenv("NODEBUG") is None else False
 
 # TODO: Change your domain names here.
-ALLOWED_HOSTS = ["web", "localhost"] if os.getenv("NODEBUG") is None else [".yourdomain.com"]
+ALLOWED_HOSTS = ["web", "localhost"] if os.getenv("NODEBUG") is None else [".rss-suche.vis.one"]
 
 # Application definition
 
