@@ -11,13 +11,17 @@ logger = logging.getLogger(__name__)
 # horrible code
 
 
-def fetch(url, max_tries=10):
+def fetch(url, max_tries=5):
     headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36"}
     cur_try = 0
     while cur_try < max_tries:
         try:
             response = requests.get(url, headers=headers, timeout=30)
-            response.raise_for_status()
+            # for 4xx, return instantly because another requests does not make sense
+            if 400 <= response.status_code < 500:
+                return None
+            if 500 <= response.status_code < 600:
+                response.raise_for_status()
             return response
         except:
             cur_try += 1
