@@ -107,3 +107,4 @@ venv.bak/
 misc/dbdata/
 .vscode
 .env
+static/frontend/node_modules
