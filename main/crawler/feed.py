@@ -4,6 +4,8 @@ import feedparser
 
 logger = logging.getLogger(__name__)
 
+ignore_titles = ['comments for', 'comments on', 'kommentare zu', 'kommentare für']
+
 
 def check_feed(feed_string, url):
     # takes string as well as URLs as input
@@ -15,7 +17,11 @@ def check_feed(feed_string, url):
         if not 'feed' in d:
             return None
         if 'title' in d['feed']:
-            r['title'] = d['feed']['title']
+            title = d['feed']['title']
+            # don't save RSS for comments
+            if any(title.lower().startswith(x) for x in ignore_titles):
+                return None
+            r['title'] = title
         if 'description' in d['feed']:
             r['description'] = d['feed']['description']
         if 'link' in d['feed']:
