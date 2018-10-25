@@ -11,9 +11,10 @@ def index(request):
     results = []
     query = request.GET.get("q")
     if query:
-        vector = SearchVector('title', 'description', config="german")
+        # url and title have the main weights
+        vector = SearchVector('title', weight='A', config="german") + SearchVector('url', weight='A', config="german") + SearchVector('description', weight='B', config="german")
         search_query = SearchQuery(query, config="german")
-        results = Feed.objects.annotate(rank=SearchRank(vector, search_query)).order_by('-rank')
+        results = Feed.objects.annotate(rank=SearchRank(vector, search_query)).filter(rank__gte=0.3).order_by('-rank')
 
     return render(request, "index.html", {
         'query': query,
