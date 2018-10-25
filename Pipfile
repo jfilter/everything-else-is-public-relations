@@ -21,6 +21,7 @@ lxml = "*"
 requests = "*"
 huey = "*"
 feedparser = "*"
+get-retries = "*"
 
 [dev-packages]
 autopep8 = "*"
