@@ -9,11 +9,15 @@ RUN apt-get install -y swig libssl-dev dpkg-dev netcat nodejs
 
 RUN pip install -U pip pipenv
 ADD Pipfile* /code/
+
+ADD https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.bin /
+
 WORKDIR /code
 RUN pipenv install --system --ignore-pipfile
 
 ADD misc/dokku/CHECKS /app/
 ADD misc/dokku/* /code/
+
 
 COPY . /code/
 

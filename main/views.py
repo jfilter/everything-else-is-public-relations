@@ -12,7 +12,7 @@ def index(request):
     query = request.GET.get("q")
     if query:
         # url and title have the main weights
-        vector = SearchVector('title', weight='A', config="german") + SearchVector('url', weight='A', config="german") + SearchVector('description', weight='B', config="german")
+        vector = SearchVector('title', weight='A', config="german") + SearchVector('website', weight='A', config="german") + SearchVector('description', weight='B', config="german")
         search_query = SearchQuery(query, config="german")
         results = Feed.objects.annotate(rank=SearchRank(vector, search_query)).filter(rank__gte=0.3).order_by('-rank')
 

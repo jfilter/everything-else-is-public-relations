@@ -22,6 +22,10 @@ requests = "*"
 huey = "*"
 feedparser = "*"
 get-retries = "*"
+cython = "*"
+cysignals = "*"
+numpy = "*"
+pyfasttext = "*"
 
 [dev-packages]
 autopep8 = "*"

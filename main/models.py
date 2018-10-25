@@ -15,28 +15,32 @@ class User(AbstractUser):
 
 
 class WikiCategory(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     text = models.CharField(unique=True, max_length=500)
-    last_fetched = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
 
 
 class SeedWikiWebsite(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     url = models.CharField(unique=True, max_length=500)
-    last_fetched = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
 
 
 class Website(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     url = models.CharField(unique=True, max_length=500)
-    last_fetched = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
 
 
 class Feed(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     website = models.ForeignKey(Website, on_delete=models.CASCADE, null=True, blank=True)
     url = models.CharField(unique=True, max_length=500)
     link = models.CharField(max_length=500)
     title = models.CharField(max_length=500)
     description = models.TextField()
     version = models.CharField(max_length=10)
-    last_fetched = models.DateTimeField(blank=True, null=True)

@@ -216,7 +216,7 @@ if os.getenv("IN_DOCKER"):
     HUEY = {
         'name': 'huey_db',  # Use db name for huey.
         'consumer': {
-            'workers': 5,
+            'workers': 20,
             'worker_type': 'thread',
         },
         'connection': {
