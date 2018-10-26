@@ -7,6 +7,11 @@ import dotenv
 if __name__ == "__main__":
     dotenv.read_dotenv()
 
+    # Apply monkey-patch if we are running the huey consumer.
+    if 'run_huey' in sys.argv:
+        from gevent import monkey
+        monkey.patch_all()
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "german_media_rss.settings")
     try:
         from django.core.management import execute_from_command_line

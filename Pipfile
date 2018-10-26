@@ -26,6 +26,7 @@ cython = "*"
 cysignals = "*"
 numpy = "*"
 pyfasttext = "*"
+gevent = "*"
 
 [dev-packages]
 autopep8 = "*"

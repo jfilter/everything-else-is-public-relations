@@ -217,7 +217,7 @@ if os.getenv("IN_DOCKER"):
         'name': 'huey_db',  # Use db name for huey.
         'consumer': {
             'workers': 20,
-            'worker_type': 'thread',
+            'worker_type': 'greenlet',
         },
         'connection': {
             'host': 'redis',
@@ -230,8 +230,8 @@ else:
     HUEY = {
         'name': 'huey_db',  # Use db name for huey.
         'consumer': {
-            'workers': 20,
-            'worker_type': 'thread',
+            'workers': 100,
+            'worker_type': 'greenlet',
         },
         'connection': {
             'url': os.getenv("REDIS_URL")
