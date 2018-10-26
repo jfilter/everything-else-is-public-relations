@@ -9,10 +9,24 @@ class DateAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
-
 admin.site.register(WikiCategory, DateAdmin)
 admin.site.register(SeedWikiWebsite, DateAdmin)
-admin.site.register(Feed, DateAdmin)
+
+
+def delete_feeds(modeladmin, request, queryset):
+    queryset.all().delete()
+
+
+delete_feeds.short_description = "delete all feeds"
+
+
+class FeedAdmin(DateAdmin):
+    list_display = ['created_at', 'url', 'website']
+    ordering = ['-created_at']
+    actions = [delete_feeds]
+
+
+admin.site.register(Feed, FeedAdmin)
 
 
 def reset_websites(modeladmin, request, queryset):
