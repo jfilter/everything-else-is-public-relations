@@ -20,6 +20,9 @@ class WikiCategory(models.Model):
     text = models.CharField(unique=True, max_length=500)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
 
+    def __str__(self):
+        return self.text
+
 
 class SeedWikiWebsite(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,12 +30,21 @@ class SeedWikiWebsite(models.Model):
     url = models.CharField(unique=True, max_length=500)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
 
+    def __str__(self):
+        return self.url
+
 
 class Website(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     url = models.CharField(unique=True, max_length=500)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
+
+    def __repr__(self):
+        return f"{self.url}, {self.status}, {self.updated_at}, {self.created_at}"
+
+    def __str__(self):
+        return self.url
 
 
 class Feed(models.Model):
@@ -44,3 +56,6 @@ class Feed(models.Model):
     title = models.CharField(max_length=500)
     description = models.TextField()
     version = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.url

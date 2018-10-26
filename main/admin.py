@@ -21,7 +21,7 @@ delete_feeds.short_description = "delete all feeds"
 
 
 class FeedAdmin(DateAdmin):
-    list_display = ['created_at', 'url', 'website']
+    list_display = ['url', 'created_at', 'website']
     ordering = ['-created_at']
     actions = [delete_feeds]
 
@@ -37,7 +37,7 @@ reset_websites.short_description = "reset website"
 
 
 class WebsiteAdmin(DateAdmin):
-    list_display = ['created_at', 'status']
+    list_display = ['url', 'created_at', 'status']
     ordering = ['-created_at']
     actions = [reset_websites]
 
