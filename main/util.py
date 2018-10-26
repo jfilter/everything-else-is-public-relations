@@ -2,6 +2,8 @@
 import logging
 import time
 from urllib import parse
+from django.utils import text
+
 
 import get_retries
 
@@ -17,7 +19,14 @@ def fetch(url):
 
 
 def create_abs_urls(urls, base_url):
-    return [parse.urljoin(base_url, l) for l in urls]
+    res = []
+    for l in urls:
+        try:
+            x = parse.urljoin(base_url, l)
+            res.append(x)
+        except:
+            pass
+    return res
 
 
 # https://stackoverflow.com/a/12170628/4028896
@@ -83,3 +92,12 @@ def external_base_urls(links):
         base = parse.urlunparse(parsed[:2] + ('', '', '', ''))
         res.append(base)
     return list(set(res))  # unique
+
+
+def slugify(url):
+    url = url.split('https://')[-1]
+    url = url.split('http://')[-1]
+
+    if url.startswith('www'):
+        url = url[3:]
+    return text.slugify(url)

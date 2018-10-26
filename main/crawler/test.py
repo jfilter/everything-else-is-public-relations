@@ -39,6 +39,9 @@ def test_feed_true():
     res = feed.check_feed(util.fetch(url).text, url)
     assert not res is None
 
+    print(res['posts_per_day'])
+    assert res['posts_per_day'] > 0
+
 
 def test_feed_lang_english():
     url = 'https://themoscowtimes.com/feeds/news.xml'

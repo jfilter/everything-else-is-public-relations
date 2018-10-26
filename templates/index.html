@@ -6,9 +6,11 @@
 
 {% block content %}
 
-<h1 class="title has-text-centered"><span style="color: blue;">R</span><span style="color: red;">S</span><span style="color: orange;">S</span><span
-        style="color: blue;">–</span><span style="color: green;">S</span><span style="color: red;">u</span><span style="color: blue;">c</span><span
-        style="color: red;">h</span><span style="color: orange;">e</span></h1>
+<h1 class="title has-text-centered">
+    <a href="/">
+        RSS.vis.one
+    </a>
+</h1>
 <!-- <h2 class="subtitle">Subtitle</h2> -->
 <form action="/" method="get">
     <input class="input" type="text" placeholder="Text input" name="q" {% if query %} value="{{query}}" {% endif %}>
@@ -23,7 +25,9 @@
     <small><a href="{{ r.link }}">{{ r.link }}</a></small>
     <p>{{ r.description }}</p>
     <p>{{ r.version }}</p>
+    <a href="/feeds/{{ r.website.slug}}">alle Feeds der Seite</a>
     <br><br>
+
 </div>
 {% endfor %}
 

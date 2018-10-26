@@ -35,6 +35,13 @@ def check_feed(feed_string, url):
             text_array = sum([[e.title, e.description] for e in entries], [])
             if not is_german(text_array):
                 return None
+
+            oldest_item = min([datetime(*e.published_parsed[:6]) for e in d.entries if e.published_parsed is not None])
+
+            time_difference = datetime.now() - oldest_item
+            time_difference_in_days = time_difference / timedelta(days=1)
+            r['posts_per_day'] = len(entries) / time_difference_in_days
+
         else:
             return None
         if 'description' in d['feed']:
@@ -47,8 +54,8 @@ def check_feed(feed_string, url):
         return None
 
 
-model = FastText('/lid.176.bin')
-# model = FastText('lid.176.bin')
+model = FastText('/lid.176.ftz')
+# model = FastText('lid.176.ftz')
 
 
 def is_german(arr):

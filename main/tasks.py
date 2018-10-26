@@ -5,10 +5,11 @@ from huey import crontab
 from huey.contrib.djhuey import db_periodic_task, db_task
 
 from .crawler import crawler
-from .models import (
-    STATUS_ERROR, STATUS_SUCCESS, STATUS_WAITING, STATUS_WORKING, Feed, SeedWikiWebsite, Website, WikiCategory,
-)
+from .models import (STATUS_ERROR, STATUS_SUCCESS, STATUS_WAITING,
+                     STATUS_WORKING, Feed, SeedWikiWebsite, Website,
+                     WikiCategory)
 from .seed import seed_pages
+from .domain_info import get_info
 
 logger = logging.getLogger(__name__)
 
@@ -71,3 +72,15 @@ def cron_wiki_seed():
             cat_to_fetch.status = STATUS_ERROR
         finally:
             cat_to_fetch.save()
+
+
+@db_periodic_task(crontab(minute='*'))
+def cron_website_info():
+    ws = Website.objects.filter(reddits_per_day__isnull=True, feed__isnull=False).first()
+    if ws:
+        try:
+            res = get_info.get_info(ws.url)
+            if not res is None:
+                Website.objects.filter(id=ws.id).update(**res)
+        except Exception as e:
+            logger.error('error when getting website info: ' + str(e))

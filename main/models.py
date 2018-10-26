@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.utils.text import slugify
 
 STATUS_WAITING = 0
 STATUS_WORKING = 1
@@ -39,12 +39,23 @@ class Website(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     url = models.CharField(unique=True, max_length=500)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
+    slug = models.SlugField(null=True)
+    title = models.CharField(max_length=500, null=True)
+    description = models.TextField(null=True)
+    reddits_per_day = models.FloatField(null=True)
 
     def __repr__(self):
         return f"{self.url}, {self.status}, {self.updated_at}, {self.created_at}"
 
     def __str__(self):
         return self.url
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, so set slug
+            self.slug = slugify(self.url)
+
+        super(Website, self).save(*args, **kwargs)
 
 
 class Feed(models.Model):
@@ -56,6 +67,7 @@ class Feed(models.Model):
     title = models.CharField(max_length=500)
     description = models.TextField()
     version = models.CharField(max_length=10)
+    posts_per_day = models.FloatField(null=True)
 
     def __str__(self):
         return self.url

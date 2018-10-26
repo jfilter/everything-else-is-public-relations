@@ -22,6 +22,26 @@ def index(request):
     })
 
 
+@require_GET
+def feeds_index(request):
+    results = Website.objects.filter(feed__isnull=False).distinct().order_by('-reddits_per_day')[:100]
+
+    return render(request, "feeds_index.html", {
+        'websites': results
+    })
+
+
+@require_GET
+def feeds_detail(request, slug):
+    ws = Website.objects.get(slug=slug)
+    feeds = ws.feed_set.all().order_by('-posts_per_day')
+
+    return render(request, "feeds_details.html", {
+        'website': ws,
+        'feeds': feeds
+    })
+
+
 @staff_member_required
 def stats(request):
     return render(request, "stats.html", {

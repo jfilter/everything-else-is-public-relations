@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block content %}
+
+
+<div>
+    <h3 class="is-3">{{ website.url }}</h3>
+    Extern: <a href="{{ website.url }}">{{website.url}}</a>
+    <br><br>
+    <p>{{website.title}}</p>
+    <p>{{website.description}}</p>
+    <p>{{website.reddits_per_day}}</p>
+</div>
+
+
+{% for r in feeds %}
+<div>
+    <h3 class="
+        is-3"> <a href="{{ r.url }}">{{ r.title }}</a></h3>
+    <small><a href="{{ r.link }}">{{ r.link }}</a></small>
+    <p>{{ r.description }}</p>
+    <p>{{ r.version }}</p>
+    <p>{{ r.posts_per_day }}</p>
+
+    <br><br>
+</div>
+{% endfor %}
+
+
+{% endblock %}

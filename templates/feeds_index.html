@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block content %}
+
+
+{% for r in websites %}
+<div>
+    <h3 class="is-3"> Feeds von <a href="/feeds/{{ r.slug }}">{{ r.url }}</a></h3>
+    Extern: <a href="{{ r.url }}">{{r.url}}</a>
+    <br><br>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -57,7 +57,7 @@ def crawl(start_url, max_depth=2):
     # only check / parse the links once
     for x in list(rss) + list(atom):
         res = util.fetch(x)
-        if not res.ok:
+        if res is None or not res.ok:
             continue
         res_feed = feed.check_feed(res.text, x)
         if not res_feed is None:
@@ -72,6 +72,10 @@ def get_links(url, depth):
 
     if page is None:
         logger.debug(f'something went wrong with this page: {url}')
+        return None
+
+    if page.content is None or len(page.content) == 0:
+        logger.debug(f'something went wrong with this page, the content is empty: {url}')
         return None
 
     # check if the fetched page is actually a feed
