@@ -230,7 +230,7 @@ else:
     HUEY = {
         'name': 'huey_db',  # Use db name for huey.
         'consumer': {
-            'workers': 30,
+            'workers': 20,
             'worker_type': 'thread',
         },
         'connection': {
