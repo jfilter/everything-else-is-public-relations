@@ -1,10 +1,8 @@
 import logging
 from datetime import timedelta, datetime
-from collections import Counter
 
 import feedparser
-from pyfasttext import FastText
-
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -54,16 +52,8 @@ def check_feed(feed_string, url):
         return None
 
 
-model = FastText('/lid.176.ftz')
-# model = FastText('lid.176.ftz')
-
-
 def is_german(arr):
-    preds = sum(predict_lang(arr), [])
-
-    # check if the most common is german
-    return Counter(preds).most_common(1)[0][0] == 'de'
-
-
-def predict_lang(arr):
-    return model.predict(arr)
+    r = requests.post('http://lang-ident.app.vis.one/german', data={'text': arr})
+    if r.ok:
+        return r.json()['isGerman']
+    return False

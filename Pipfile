@@ -22,10 +22,6 @@ requests = "*"
 huey = "*"
 feedparser = "*"
 get-retries = "*"
-cython = "*"
-cysignals = "*"
-numpy = "*"
-pyfasttext = "*"
 gevent = "*"
 
 [dev-packages]
