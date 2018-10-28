@@ -78,9 +78,9 @@ def cron_wiki_seed():
 def cron_website_info():
     ws = Website.objects.filter(reddits_per_day__isnull=True, feed__isnull=False).first()
     if ws:
-        try:
-            res = get_info.get_info(ws.url)
-            if not res is None:
-                Website.objects.filter(id=ws.id).update(**res)
-        except Exception as e:
-            logger.error('error when getting website info: ' + str(e))
+        # try:
+        res = get_info.get_info(ws.url)
+        if not res is None:
+            Website.objects.filter(id=ws.id).update(**res)
+        # except Exception as e:
+        #     logger.error('error when getting website info: ' + str(e))
