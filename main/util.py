@@ -22,7 +22,7 @@ def create_abs_urls(urls, base_url):
     res = []
     for l in urls:
         try:
-            x = parse.urljoin(base_url, l)
+            x = parse.urljoin(base_url, l.lower())
             res.append(x)
         except:
             pass
@@ -55,7 +55,7 @@ def internal_urls(urls, base_url):
     orig_loc = parse.urlparse(base_url).netloc
 
     for u in urls:
-        parsed = parse.urlparse(u)
+        parsed = parse.urlparse(u.lower())
 
         if not parsed.netloc == orig_loc:
             continue
@@ -79,7 +79,7 @@ def external_base_urls(links):
 
     res = []
     for l in links:
-        parsed = parse.urlparse(l)
+        parsed = parse.urlparse(l.lower())
         netloc = parsed.netloc
         if any(wiki in netloc for wiki in ('wikipedia', 'wikidata', 'wikimedia', 'mediawiki')):
             logger.debug(f'skip: {l}')
