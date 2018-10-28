@@ -35,7 +35,9 @@ def cron_crawl():
 
         if feeds is not None:
             for f in feeds:
-                Feed.objects.get_or_create(website=site_to_fetch, **f)
+                # FIXME: there have been some changes to feeds.
+                if not Feed.objects.filter(url=f['url']).exists():
+                    Feed.objects.get_or_create(website=site_to_fetch, **f)
 
 
 @db_periodic_task(crontab(minute='*'))
