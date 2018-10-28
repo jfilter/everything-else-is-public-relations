@@ -24,7 +24,7 @@ def index(request):
 
 @require_GET
 def feeds_index(request):
-    results = Website.objects.filter(feed__isnull=False).distinct().order_by('-reddits_per_day')[:100]
+    results = Website.objects.filter(feed__isnull=False, reddits_per_day__isnull=False).distinct().order_by('-reddits_per_day')[:100]
 
     return render(request, "feeds_index.html", {
         'websites': results
