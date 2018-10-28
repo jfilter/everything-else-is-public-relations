@@ -27,14 +27,14 @@ def check_feed(feed_string, url):
         if 'entries' in d:
             # at least 3 articles in the last 90 days
             last_three_month = datetime.now() - timedelta(days=90)
-            entries = [e for e in d.entries if e.published_parsed is not None and datetime(*e.published_parsed[:6]) > last_three_month]
+            entries = [e for e in d.entries if hasattr(e, 'published_parsed') and e.published_parsed is not None and datetime(*e.published_parsed[:6]) > last_three_month]
             if len(entries) <= 3:
                 return None
             text_array = sum([[e.title, e.description] for e in entries], [])
             if not is_german(text_array):
                 return None
 
-            oldest_item = min([datetime(*e.published_parsed[:6]) for e in d.entries if e.published_parsed is not None])
+            oldest_item = min([datetime(*e.published_parsed[:6]) for e in d.entries if hasattr(e, 'published_parsed') and e.published_parsed is not None])
 
             time_difference = datetime.now() - oldest_item
             time_difference_in_days = time_difference / timedelta(days=1)
