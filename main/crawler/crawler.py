@@ -85,6 +85,9 @@ def get_links(url, depth):
         if any(x in page.headers['content-type'] for x in feed_types):
             res_feed = feed.check_feed(page.content, url)
 
+    if page.content is None or len(page.content) == 0:
+        return None
+
     # so crawl links from it
     tree = html.fromstring(page.content)
     atom = tree.xpath('//a[@type="application/atom+xml"]/@href') + tree.xpath('//link[@type="application/atom+xml"]/@href')
