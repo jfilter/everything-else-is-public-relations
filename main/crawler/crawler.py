@@ -2,7 +2,7 @@ import logging
 from urllib import parse
 
 from lxml import html
-from lxml import etree.ParserError
+from lxml.etree import ParserError
 
 from . import feed
 from .. import util
@@ -92,7 +92,7 @@ def get_links(url, depth):
     # ignore if parsing goes wrong
     try:
         tree = html.fromstring(page.content)
-    except ParserError as e:
+    except ParserError:
         return None
 
     # so crawl links from it
