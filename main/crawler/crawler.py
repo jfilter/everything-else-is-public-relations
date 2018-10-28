@@ -2,6 +2,7 @@ import logging
 from urllib import parse
 
 from lxml import html
+from lxml import etree.ParserError
 
 from . import feed
 from .. import util
@@ -88,8 +89,13 @@ def get_links(url, depth):
     if page.content is None or len(page.content) == 0:
         return None
 
+    # ignore if parsing goes wrong
+    try:
+        tree = html.fromstring(page.content)
+    except ParserError as e:
+        return None
+
     # so crawl links from it
-    tree = html.fromstring(page.content)
     atom = tree.xpath('//a[@type="application/atom+xml"]/@href') + tree.xpath('//link[@type="application/atom+xml"]/@href')
     rss = tree.xpath('//a[@type="application/rss+xml"]/@href') + tree.xpath('//link[@type="application/rss+xml"]/@href')
 
