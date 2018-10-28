@@ -86,9 +86,6 @@ def get_links(url, depth):
         if any(x in page.headers['content-type'] for x in feed_types):
             res_feed = feed.check_feed(page.content, url)
 
-    if page.content is None or len(page.content) == 0:
-        return None
-
     # ignore if parsing goes wrong
     try:
         tree = html.fromstring(page.content)
