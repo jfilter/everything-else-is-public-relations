@@ -10,7 +10,7 @@ ignore_titles = ['comments for', 'comments on', 'kommentare zu', 'kommentare fü
 
 
 def check_feed(feed_string, url):
-    # takes string as well as URLs as input
+    # takes string
     try:
         r = {'url': url}
         d = feedparser.parse(feed_string)

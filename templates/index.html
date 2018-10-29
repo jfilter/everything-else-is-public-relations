@@ -8,26 +8,33 @@
 
 <h1 class="title has-text-centered">
     <a href="/">
-        RSS.vis.one
+        Feeds.jetzt
     </a>
 </h1>
-<!-- <h2 class="subtitle">Subtitle</h2> -->
-<form action="/" method="get">
-    <input class="input" type="text" placeholder="Text input" name="q" {% if query %} value="{{query}}" {% endif %}>
-    <input type="submit">
+<h2 class="subtitle has-text-centered">RSS-Feeds jetzt Suchen und Finden</h2>
+
+
+<form action="/" method="get" class="field is-grouped">
+    <p class="control is-expanded">
+        <input class="input" type="text" placeholder="Nach RSS-Feeds suchen" name="q" {% if query %} value="{{query}}"
+            {% endif %}>
+    </p>
+    <p class="control">
+        <input type="submit" class="button is-info" value="Suche">
+    </p>
 </form>
 
 <br>
 
 {% for r in results %}
-<div>
-    <h3 class="is-3"> <a href="{{ r.url }}">{{ r.title }}</a></h3>
+<div class="box">
+    <h3 class="is-3"> <a href="{{ r.url }}">{{ r.title }}</a><span class="tag" style="margin-left: 1rem;">
+            {{r.version}}
+        </span></h3>
     <small><a href="{{ r.link }}">{{ r.link }}</a></small>
     <p>{{ r.description }}</p>
-    <p>{{ r.version }}</p>
+    <!-- <p>{{ r.version }}</p> -->
     <a href="/feeds/{{ r.website.slug}}">alle Feeds der Seite</a>
-    <br><br>
-
 </div>
 {% endfor %}
 

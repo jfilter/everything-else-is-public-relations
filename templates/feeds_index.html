@@ -6,12 +6,16 @@
 
 {% block content %}
 
+<p>
+    Hier finden Sie alle Feeds aufgelistet nach Popularität.
+</p>
+
+<br>
 
 {% for r in websites %}
-<div>
+<div class="box">
     <h3 class="is-3"> Feeds von <a href="/feeds/{{ r.slug }}">{{ r.url }}</a></h3>
-    Extern: <a href="{{ r.url }}">{{r.url}}</a>
-    <br><br>
+    <a href="{{ r.url }}">Extern</a>
 </div>
 {% endfor %}
 
