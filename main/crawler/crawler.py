@@ -4,8 +4,7 @@ from urllib import parse
 from lxml import html
 from lxml.etree import ParserError
 
-from . import feed
-from .. import util
+from . import feed, util
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +59,8 @@ def crawl(start_url, max_depth=2):
         res = util.fetch(x)
         if res is None or not res.ok:
             continue
-        res_feed = feed.check_feed(res.text, x)
+        # take response URL because of redirects
+        res_feed = feed.check_feed(res.text, res.url)
         if not res_feed is None:
             feeds.append(res_feed)
 
@@ -68,41 +68,49 @@ def crawl(start_url, max_depth=2):
 
 
 def get_links(url, depth):
+    """Get URLs for feeds but also other, internal URL for further crawling
+    """
     logger.debug(f"fetch: {url}, {depth}")
-    page = util.fetch(url)
+    res = util.fetch(url)
 
-    if page is None:
-        logger.debug(f'something went wrong with this page: {url}')
+    if res is None:
+        logger.debug(f"something went wrong with this page: {url}")
         return None
 
-    if page.content is None or len(page.content) == 0:
-        logger.debug(f'something went wrong with this page, the content is empty: {url}')
+    if res.content is None or len(res.content) == 0:
+        logger.debug(
+            f"something went wrong with this page, the content is empty: {url}"
+        )
         return None
 
     # check if the fetched page is actually a feed
-    feed_types = ['text/xml', 'application/xml', 'rss+xml', 'atom+xml']
+    feed_types = ["text/xml", "application/xml", "rss+xml", "atom+xml"]
     res_feed = None
-    if 'content-type' in page.headers:
-        if any(x in page.headers['content-type'] for x in feed_types):
-            res_feed = feed.check_feed(page.content, url)
+    if "content-type" in res.headers:
+        if any(x in res.headers["content-type"] for x in feed_types):
+            res_feed = feed.check_feed(res.content, res.url)
 
     # ignore if parsing goes wrong
     try:
-        tree = html.fromstring(page.content)
+        tree = html.fromstring(res.content)
     except ParserError:
         return None
 
     # so crawl links from it
-    atom = tree.xpath('//a[@type="application/atom+xml"]/@href') + tree.xpath('//link[@type="application/atom+xml"]/@href')
-    rss = tree.xpath('//a[@type="application/rss+xml"]/@href') + tree.xpath('//link[@type="application/rss+xml"]/@href')
+    atom = tree.xpath('//a[@type="application/atom+xml"]/@href') + tree.xpath(
+        '//link[@type="application/atom+xml"]/@href'
+    )
+    rss = tree.xpath('//a[@type="application/rss+xml"]/@href') + tree.xpath(
+        '//link[@type="application/rss+xml"]/@href'
+    )
 
     # often the feed urls are relative
-    atom = util.create_abs_urls(atom, url)
-    rss = util.create_abs_urls(rss, url)
+    atom = util.create_abs_urls(atom, res.url)
+    rss = util.create_abs_urls(rss, res.url)
 
-    all_urls = tree.xpath('//a/@href')
+    all_urls = tree.xpath("//a/@href")
 
-    internal_urls = util.internal_urls(all_urls, url)
+    internal_urls = util.internal_urls(all_urls, res.url)
 
     # increase the depth
     return [(u, depth + 1) for u in internal_urls], atom, rss, res_feed

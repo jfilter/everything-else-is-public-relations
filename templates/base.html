@@ -1,55 +1,45 @@
-{% load staticfiles %}
-<!DOCTYPE html>
+{% load staticfiles %} <!DOCTYPE html>
 <html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <title>RSS-Suche für RSS-Feeds und Atom-Feeds</title>
 
-<head>
-    <meta charset="UTF-8">
-    <title>RSS-Suche für RSS-Feeds und Atom-Feeds</title>
+        <link href="{% static 'frontend/node_modules/bulma/css/bulma.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+    </head>
 
-    <link href="{% static 'frontend/node_modules/bulma/css/bulma.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-</head>
+    <body>
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/"> <img src="/static/logo.png" width="28" height="28" /> </a>
 
-<body>
-    <div class="container">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <img src="/static/logo.png" width="28" height="28">
-                </a>
+                    <a
+                        role="button"
+                        class="navbar-burger burger"
+                        aria-label="menu"
+                        aria-expanded="false"
+                        data-target="navbarBasicExample"
+                    >
+                        <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
 
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            <div id="navbarBasicExample" class="navbar-menu">
-
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-light" href="/feeds">
-                                Feeds
-                            </a>
-                            <a class="button is-light">
-                                Über uns
-                            </a>
-                            <a class="button is-light">
-                                Kontakt
-                            </a>
+                <div id="navbarBasicExample" class="navbar-menu">
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button is-light" href="/feeds"> Feeds </a>
+                                <a class="button is-light" href="/#über"> Über uns </a>
+                                <a class="button is-light" href="/#kontakt"> Kontakt </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </div>
+            </nav>
+        </div>
 
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
-</body>
-
+        <div class="container">{% block content %} {% endblock %}</div>
+    </body>
 </html>

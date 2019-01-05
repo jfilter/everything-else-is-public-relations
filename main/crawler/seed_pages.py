@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import category_members
 from lxml import html
 
-from .. import util
+from . import util
 
 
 def extract_links_wiki_page(url):

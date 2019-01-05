@@ -5,7 +5,7 @@ from .models import User, WikiCategory, SeedWikiWebsite, Feed, Website, STATUS_W
 
 
 class DateAdmin(admin.ModelAdmin):
-    readonly_fields = ('created_at', 'updated_at', )
+    readonly_fields = ("created_at", "updated_at")
 
 
 admin.site.register(User, UserAdmin)
@@ -21,8 +21,8 @@ delete_feeds.short_description = "delete all feeds"
 
 
 class FeedAdmin(DateAdmin):
-    list_display = ['url', 'created_at', 'website']
-    ordering = ['-created_at']
+    list_display = ["url", "created_at", "website"]
+    ordering = ["-created_at"]
     actions = [delete_feeds]
 
 
@@ -33,13 +33,18 @@ def reset_websites(modeladmin, request, queryset):
     queryset.update(status=STATUS_WAITING)
 
 
+def delete_websites(modeladmin, request, queryset):
+    queryset.all().delete()
+
+
+delete_websites.short_description = "delete all websites"
 reset_websites.short_description = "reset website"
 
 
 class WebsiteAdmin(DateAdmin):
-    list_display = ['url', 'created_at', 'status']
-    ordering = ['-created_at']
-    actions = [reset_websites]
+    list_display = ["url", "created_at", "status"]
+    ordering = ["-created_at"]
+    actions = [reset_websites, delete_websites]
 
 
 admin.site.register(Website, WebsiteAdmin)

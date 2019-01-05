@@ -1,41 +1,48 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load i18n %} {% block title %}{% trans "Home" %}{% endblock %} {% block content %}
 
-{% load i18n %}
-
-{% block title %}{% trans "Home" %}{% endblock %}
-
-{% block content %}
-
-<h1 class="title has-text-centered">
-    <a href="/">
-        Feeds.jetzt
-    </a>
-</h1>
+<h1 class="title has-text-centered"><a href="/"> Feeds.jetzt </a></h1>
 <h2 class="subtitle has-text-centered">RSS-Feeds jetzt Suchen und Finden</h2>
-
 
 <form action="/" method="get" class="field is-grouped">
     <p class="control is-expanded">
-        <input class="input" type="text" placeholder="Nach RSS-Feeds suchen" name="q" {% if query %} value="{{query}}"
-            {% endif %}>
+        <input
+            class="input"
+            type="text"
+            placeholder="Nach RSS-Feeds suchen"
+            name="q"
+            {%
+            if
+            query
+            %}
+            value="{{ query }}"
+            {%
+            endif
+            %}
+        />
     </p>
-    <p class="control">
-        <input type="submit" class="button is-info" value="Suche">
-    </p>
+    <p class="control"><input type="submit" class="button is-info" value="Suche" /></p>
 </form>
 
-<br>
+<br />
 
 {% for r in results %}
 <div class="box">
-    <h3 class="is-3"> <a href="{{ r.url }}">{{ r.title }}</a><span class="tag" style="margin-left: 1rem;">
-            {{r.version}}
-        </span></h3>
-    <small><a href="{{ r.link }}">{{ r.link }}</a></small>
+    <h3 class="is-3">
+        <a href="{{ r.url }}">{{ r.title }}</a
+        ><span class="tag" style="margin-left: 1rem;"> {{ r.version }} </span>
+    </h3>
+    <small
+        ><a href="{{ r.link }}">{{ r.link }}</a></small
+    >
     <p>{{ r.description }}</p>
     <!-- <p>{{ r.version }}</p> -->
-    <a href="/feeds/{{ r.website.slug}}">alle Feeds der Seite</a>
+    <a href="/feeds/{{ r.website.slug }}">alle Feeds der Seite</a>
 </div>
+
 {% endfor %}
+
+<div id="über">Lorem</div>
+
+<div id="kontakt">Lorem</div>
 
 {% endblock %}

@@ -1,19 +1,7 @@
-{% extends "base.html" %}
-
-{% load i18n %}
-
-{% block title %}{% trans "Home" %}{% endblock %}
-
-{% block content %}
-
-# Categories: {{ num_cats }}
-<br /><br />
-# Seed Links: {{ num_seed_links }}
-<br /><br />
-# Websites: {{ num_websites }}
-<br /><br />
+{% extends "base.html" %} {% load i18n %} {% block title %}{% trans "Home" %}{% endblock %} {% block content %} #
+Categories: {{ num_cats }} <br /><br />
+# Seed Links: {{ num_seed_links }} <br /><br />
+# Websites: {{ num_websites }} <br /><br />
 # Seed Feeds: {{ num_feeds }}
-
-
 
 {% endblock %}

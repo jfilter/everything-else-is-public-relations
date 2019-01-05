@@ -1,22 +1,14 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load i18n %} {% block title %}{% trans "Home" %}{% endblock %} {% block content %}
 
-{% load i18n %}
+<p>Hier finden Sie alle Feeds aufgelistet nach Popularität.</p>
 
-{% block title %}{% trans "Home" %}{% endblock %}
-
-{% block content %}
-
-<p>
-    Hier finden Sie alle Feeds aufgelistet nach Popularität.
-</p>
-
-<br>
+<br />
 
 {% for r in websites %}
 <div class="box">
-    <h3 class="is-3"> Feeds von <a href="/feeds/{{ r.slug }}">{{ r.url }}</a></h3>
+    <h3 class="is-3">
+        Feeds von <a href="/feeds/{{ r.slug }}">{{ r.url }}</a>
+    </h3>
     <a href="{{ r.url }}">Extern</a>
 </div>
-{% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

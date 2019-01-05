@@ -4,6 +4,10 @@ RSS/Atom feeds for German Newspapers/German Media
 
 ## Development
 
+```
+docker-compose up
+```
+
 ### General
 
 Based on [this template](https://github.com/skorokithakis/django-project-template) and following [this guide](https://www.stavros.io/posts/deploy-django-dokku/) to deploy it with [Dokku](http://dokku.viewdocs.io/dokku/).

@@ -1,35 +1,28 @@
-{% extends "base.html" %}
-
-{% load i18n %}
-
-{% block title %}{% trans "Home" %}{% endblock %}
-
-{% block content %}
-
+{% extends "base.html" %} {% load i18n %} {% block title %}{% trans "Home" %}{% endblock %} {% block content %}
 
 <div>
     <h1 class="is-1">{{ website.url }}</h1>
-    Extern: <a href="{{ website.url }}">{{website.url}}</a>
-    <br><br>
-    <p>{{website.title}}</p>
-    <p>{{website.description}}</p>
-    <p>Reddit-Posts pro Tag: {{website.reddits_per_day|floatformat}}</p>
+    Extern: <a href="{{ website.url }}">{{ website.url }}</a> <br /><br />
+    <p>{{ website.title }}</p>
+    <p>{{ website.description }}</p>
+    <p>Reddit-Posts pro Tag: {{ website.reddits_per_day | floatformat }}</p>
 </div>
 
-<br>
-
+<br />
 
 {% for r in feeds %}
 <div class="box">
-    <h3 class="
-        is-3"> <a href="{{ r.url }}">{{ r.title }}</a><span class="tag" style="margin-left: 1rem;">
-            {{r.version}}
-        </span></h3>
-    <small><a href="{{ r.link }}">{{ r.link }}</a></small>
+    <h3
+        class="
+        is-3"
+    >
+        <a href="{{ r.url }}">{{ r.title }}</a
+        ><span class="tag" style="margin-left: 1rem;"> {{ r.version }} </span>
+    </h3>
+    <small
+        ><a href="{{ r.link }}">{{ r.link }}</a></small
+    >
     <p>{{ r.description }}</p>
-    <p>Posts pro Tag: {{ r.posts_per_day|floatformat }}</p>
+    <p>Posts pro Tag: {{ r.posts_per_day | floatformat }}</p>
 </div>
-{% endfor %}
-
-
-{% endblock %}
+{% endfor %} {% endblock %}

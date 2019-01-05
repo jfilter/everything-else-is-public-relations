@@ -23,11 +23,13 @@ huey = "*"
 feedparser = "*"
 get-retries = "*"
 gevent = "*"
+url-normalize = "*"
 
 [dev-packages]
 autopep8 = "*"
 pylint = "*"
 isort = "*"
+black = "*"
 
 [requires]
 python_version = "3.6"

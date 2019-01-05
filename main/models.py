@@ -7,7 +7,12 @@ STATUS_WORKING = 1
 STATUS_SUCCESS = 2
 STATUS_ERROR = 3
 
-STATUS_CHOICES = ((STATUS_WAITING, 'waiting'), (STATUS_WORKING, 'working'), (STATUS_SUCCESS, 'success'), (STATUS_ERROR, 'error'))
+STATUS_CHOICES = (
+    (STATUS_WAITING, "waiting"),
+    (STATUS_WORKING, "working"),
+    (STATUS_SUCCESS, "success"),
+    (STATUS_ERROR, "error"),
+)
 
 
 class User(AbstractUser):
@@ -37,11 +42,11 @@ class SeedWikiWebsite(models.Model):
 class Website(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    url = models.CharField(unique=True, max_length=500)
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
     slug = models.SlugField(null=True)
     title = models.CharField(max_length=500, null=True)
     description = models.TextField(null=True)
+    url = models.CharField(unique=True, max_length=500)
     reddits_per_day = models.FloatField(null=True)
 
     def __repr__(self):
@@ -58,10 +63,18 @@ class Website(models.Model):
         super(Website, self).save(*args, **kwargs)
 
 
+class WebsiteScore(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    reddits_per_day = models.FloatField(null=True)
+    website = models.ForeignKey(Website, on_delete=models.CASCADE)
+
+
 class Feed(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    website = models.ForeignKey(Website, on_delete=models.CASCADE, null=True, blank=True)
+    website = models.ForeignKey(
+        Website, on_delete=models.CASCADE, null=True, blank=True
+    )
     url = models.CharField(unique=True, max_length=500)
     link = models.CharField(max_length=500)
     title = models.CharField(max_length=500)
@@ -71,3 +84,9 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class FeedScore(models.Model):
+    posts_per_day = models.FloatField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
