@@ -27,7 +27,9 @@ SECRET_KEY = os.getenv("SECRET_KEY", "override me")
 DEBUG = True if os.getenv("NODEBUG") is None else False
 
 # TODO: Change your domain names here.
-ALLOWED_HOSTS = ["web", "localhost"] if os.getenv("NODEBUG") is None else [".feeds.jetzt"]
+ALLOWED_HOSTS = (
+    ["web", "localhost"] if os.getenv("NODEBUG") is None else [".feeds.jetzt"]
+)
 
 # Application definition
 
@@ -139,7 +141,12 @@ elif os.getenv("DATABASE_URL"):
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 else:
-    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.path.join(BASE_DIR, "db.sqlite3")}}
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
 
 if os.getenv("EMAIL_HOST_PASSWORD", ""):
     # TODO: Change these to match your provider.
@@ -158,7 +165,9 @@ else:
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -185,7 +194,12 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
-    "loggers": {"django": {"handlers": ["console"], "level": os.getenv("DJANGO_LOG_LEVEL", "INFO")}},
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+        }
+    },
 }
 
 # Static files (CSS, JavaScript, Images)
@@ -213,27 +227,17 @@ except:  # noqa
     pass
 
 if os.getenv("IN_DOCKER"):
+    # DEV
     HUEY = {
-        'name': 'huey_db',  # Use db name for huey.
-        'consumer': {
-            'workers': 5,
-            'worker_type': 'thread',
-        },
-        'connection': {
-            'host': 'redis',
-            'port': 6379,
-            'db': 1,
-        },
-        'always_eager': False
+        "name": "huey_db",  # Use db name for huey.
+        "consumer": {"workers": 5, "worker_type": "thread"},
+        "connection": {"host": "redis", "port": 6379, "db": 1},
+        "always_eager": False,
     }
 else:
     HUEY = {
-        'name': 'huey_db',  # Use db name for huey.
-        'consumer': {
-            'workers': 5,
-            'worker_type': 'thread',
-        },
-        'connection': {
-            'url': os.getenv("REDIS_URL")
-        },
+        "name": "huey_db",  # Use db name for huey.
+        "consumer": {"workers": 20, "worker_type": "thread"},
+        "connection": {"url": os.getenv("REDIS_URL")},
     }
+
